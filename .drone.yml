@@ -9,7 +9,7 @@ build:
     - export VERSION=$(cat VERSION)
 #    - curl --silent https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh > mkimage-alpine.sh
     - chmod +x mkimage-alpine.sh
-    - ./mkimage-alpine.sh -r ${VERSION}
+    - ./mkimage-alpine.sh -s -r ${VERSION}
     - ls -la
 #    - docker tag firecyberice/armhf-alpine:${VERSION} tempalpine
 #    - docker save --output=/drone/src/github.com/firecyberice/arm-alpine/temp.tar tempalpine
