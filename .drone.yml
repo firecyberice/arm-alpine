@@ -8,8 +8,9 @@ build:
   commands:
     - apk update && apk add git curl ca-certificates
     - export VERSION=$(cat VERSION)
-    - curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh
-    - ./mkimage-alpine.sh
+    - curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh > mkimage-alpine.sh
+    - export REL=$VERSION
+    - bash ./mkimage-alpine.sh
     - export TIMESTAMP=$(date +"%Y-%m-%d_%H%M")
     - export REPO=$(git rev-parse --short HEAD)
     - docker save --output=temp.tar alpine:latest
@@ -29,6 +30,5 @@ publish:
     repo: firecyberice/armhf-alpine
     tag: 
       - latest
+      - v3.2
     load: temp.tar
-
-
