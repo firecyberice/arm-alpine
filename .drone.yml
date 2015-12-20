@@ -1,0 +1,34 @@
+
+#debug: true
+
+build:
+  image: firecyberice/rpi-docker:1.10.0-dev
+  environment:
+    - DOCKER_HOST=tcp://localhost:2375
+  commands:
+    - apk update && apk add git curl ca-certificates
+    - export VERSION=$(cat VERSION)
+    - curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh
+    - ./mkimage-alpine.sh
+    - export TIMESTAMP=$(date +"%Y-%m-%d_%H%M")
+    - export REPO=$(git rev-parse --short HEAD)
+    - docker save --output=temp.tar alpine:latest
+
+compose:
+  docker:
+    privileged: true
+    image: firecyberice/rpi-docker:1.10.0-dev-dind
+
+publish:
+  docker:
+#    environment:
+#      - DOCKER_LAUNCH_DEBUG=true
+    username: $$DOCKER_USER
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: firecyberice/armhf-alpine
+    tag: 
+      - latest
+    load: temp.tar
+
+
