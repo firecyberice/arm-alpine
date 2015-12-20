@@ -1,4 +1,3 @@
-
 #debug: true
 
 build:
@@ -6,14 +5,14 @@ build:
   environment:
     - DOCKER_HOST=tcp://localhost:2375
   commands:
-    - apk update && apk add git curl ca-certificates
+    - apk update && apk add curl tar gzip
     - export VERSION=$(cat VERSION)
-    - curl https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh > mkimage-alpine.sh
-    - export REL=$VERSION
-    - bash ./mkimage-alpine.sh
-    - export TIMESTAMP=$(date +"%Y-%m-%d_%H%M")
-    - export REPO=$(git rev-parse --short HEAD)
-    - docker save --output=temp.tar alpine:latest
+#    - curl --silent https://raw.githubusercontent.com/docker/docker/master/contrib/mkimage-alpine.sh > mkimage-alpine.sh
+    - chmod +x mkimage-alpine.sh
+    - ./mkimage-alpine.sh -r ${VERSION}
+    - ls -la
+#    - docker tag firecyberice/armhf-alpine:${VERSION} tempalpine
+#    - docker save --output=/drone/src/github.com/firecyberice/arm-alpine/temp.tar tempalpine
 
 compose:
   docker:
@@ -22,6 +21,7 @@ compose:
 
 publish:
   docker:
+#    load: /drone/src/github.com/firecyberice/arm-alpine/temp.tar
 #    environment:
 #      - DOCKER_LAUNCH_DEBUG=true
     username: $$DOCKER_USER
@@ -31,4 +31,3 @@ publish:
     tag: 
       - latest
       - v3.2
-    load: temp.tar
