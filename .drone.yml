@@ -30,4 +30,4 @@ publish:
     repo: firecyberice/armhf-alpine
     tag: 
       - latest
-      - v3.3
+      - v3.4

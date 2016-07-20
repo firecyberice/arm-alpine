@@ -73,7 +73,7 @@ REL=${REL:-edge}
 MIRROR=${MIRROR:-http://nl.alpinelinux.org/alpine}
 SAVE=${SAVE:-0}
 REPO=$MIRROR/$REL/main
-ARCH=armhf
+ARCH=${ARCH:-armhf}
 #ARCH=$(uname -m)
 TAG=firecyberice/armhf-alpine
 
