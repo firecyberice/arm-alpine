@@ -1,4 +1,3 @@
 FROM scratch
 ADD rootfs.tar /
-ENTRYPOINT /bin/sh
-
+ENTRYPOINT ["/bin/sh"]

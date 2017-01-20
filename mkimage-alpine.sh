@@ -11,8 +11,8 @@ usage() {
 }
 
 tmp() {
-  TMP=$(mktemp -d alpine-docker-XXXXXXXXXX)
-  ROOTFS=$(mktemp -d alpine-docker-rootfs-XXXXXXXXXX)
+  TMP=$(mktemp -d /tmp/alpine-docker-XXXXXXXXXX)
+  ROOTFS=$(mktemp -d /tmp/alpine-docker-rootfs-XXXXXXXXXX)
   trap "rm -rf $TMP $ROOTFS" EXIT TERM INT
 }
 
@@ -24,7 +24,7 @@ apkv() {
 
 getapk() {
   curl -s $REPO/$ARCH/apk-tools-static-$(apkv).apk | \
-    tar -xz -C $TMP sbin/apk.static
+  tar -xz -C $TMP sbin/apk.static
 }
 
 mkbase() {
@@ -33,7 +33,8 @@ mkbase() {
 }
 
 conf() {
-  printf '%s\n' $REPO > $ROOTFS/etc/apk/repositories
+  mkdir -p "${ROOTFS}/etc/apk"
+  printf '%s\n' $REPO > "${ROOTFS}/etc/apk/repositories"
 }
 
 pack() {
@@ -77,17 +78,18 @@ ARCH=${ARCH:-armhf}
 #ARCH=$(uname -m)
 TAG=firecyberice/armhf-alpine
 
+
 echo -e "prepare\n\n"
 tmp && getapk
+
+echo $(apkv)
+ls -la ${TMP}/sbin
 
 echo -e "makebase\n\n"
 mkbase
 
-
 echo -e "config\n\n"
-mkdir -p $ROOTFS/etc/apk
-echo -e "$REPO\n" > $ROOTFS/etc/apk/repositories
-#conf
+conf
 
 #echo -e "pack\n\n"
 #pack
