@@ -88,8 +88,8 @@ echo -e "config\n\n"
 echo -e "$REPO\n" > $ROOTFS/etc/apk/repositories
 #conf
 
-echo -e "pack\n\n"
-pack
+#echo -e "pack\n\n"
+#pack
 
 echo -e "save\n\n"
 save
