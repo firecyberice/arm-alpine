@@ -11,19 +11,19 @@ usage() {
 }
 
 tmp() {
-  TMP=$(mktemp -d /tmp/alpine-docker-XXXXXXXXXX)
-  ROOTFS=$(mktemp -d /tmp/alpine-docker-rootfs-XXXXXXXXXX)
+  TMP=$(mktemp -d alpine-docker-XXXXXXXXXX)
+  ROOTFS=$(mktemp -d alpine-docker-rootfs-XXXXXXXXXX)
   trap "rm -rf $TMP $ROOTFS" EXIT TERM INT
 }
 
 apkv() {
   set -x
-  curl -s $REPO/$ARCH/APKINDEX.tar.gz | tar -Oxz |
-    grep '^P:apk-tools-static$' -a -A1 | tail -n1 | cut -d: -f2
+  curl -s $REPO/$ARCH/APKINDEX.tar.gz | tar -Oxz | \
+  grep '^P:apk-tools-static$' -a -A1 | tail -n1 | cut -d: -f2
 }
 
 getapk() {
-  curl -s $REPO/$ARCH/apk-tools-static-$(apkv).apk |
+  curl -s $REPO/$ARCH/apk-tools-static-$(apkv).apk | \
     tar -xz -C $TMP sbin/apk.static
 }
 
