@@ -3,4 +3,4 @@
 VERSION=$(cat VERSION)
 chmod +x mkimage-alpine.sh
 
-docker run -dit -w /data -v $(pwd):/data alpine:3.5 sh -c "apk add -U curl tar && ./mkimage-alpine.sh -r ${VERSION}"
+docker run --rm -t -w /data -v $(pwd):/data alpine:3.5 sh -c "apk add -U curl tar && ./mkimage-alpine.sh -r ${VERSION}"
